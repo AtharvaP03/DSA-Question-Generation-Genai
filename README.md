@@ -27,7 +27,7 @@ This Flask application generates Data Structures and Algorithms (DSA) questions 
 
 4. Run the application:
     ```bash
-    python app.py
+    python Gen1.py
     ```
 
 ## Usage
