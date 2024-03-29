@@ -23,7 +23,7 @@ This Flask application generates Data Structures and Algorithms (DSA) questions 
 
 3. Configure Google Generative AI:
     - Obtain an API key from Google's Generative AI.
-    - Replace `'AIzaSyDX14XHuVZscz2Ihjui1d3Ank1penTGwlU'` in `generate_dsa_question()` and `generate_test_cases()` functions with your API key.
+   
 
 4. Run the application:
     ```bash
