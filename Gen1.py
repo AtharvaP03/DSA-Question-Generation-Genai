@@ -1,10 +1,12 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import random
 import google.generativeai as genai
 
 app = Flask(__name__)
 
+genai.configure(api_key="AIz-----------------------wlU")
 
+# Define DSA topics
 dsa_topics = {
     "Arrays": [
         "Dynamic Programming (DP) problems related to arrays.",
@@ -28,9 +30,10 @@ dsa_topics = {
     ]
 }
 
-def generate_dsa_question(topic):
+def generate_dsa_question(topic, difficulty="medium"):
     prompt = f"""
     **Topic:** {topic}
+    **Difficulty:** {difficulty}
 
     **Instructions:**
     - This question is commonly encountered in programming competitions and assessments.
@@ -42,13 +45,18 @@ def generate_dsa_question(topic):
     Write a question that adheres to the provided instructions.
     """
 
-    genai.configure(api_key="AI-------------------wlU")
-    model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(prompt)
+    try:
+        model = genai.GenerativeModel('gemini-pro')
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except genai.RequestError as e:
+        return f"Error: API request failed ({e})"
+    except genai.APIError as e:
+        return f"Error: Generative AI API error ({e})"
+    except Exception as e:
+        return f"Error generating DSA question: {e}"
 
-    return response.text.strip()
-
-def generate_test_cases(question, num_test_cases=15):
+def generate_test_cases(question, num_test_cases=10):
     prompt = f"""
     **Question:** {question}
 
@@ -65,29 +73,52 @@ def generate_test_cases(question, num_test_cases=15):
     Write {num_test_cases} test cases that thoroughly test the problem related to the given question.
     """
 
-    genai.configure(api_key="AI-------------------wlU")
-    model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(prompt)
+    try:
+        model = genai.GenerativeModel('gemini-pro')
+        response = model.generate_content(prompt)
+        test_cases = response.text.strip().split("\n\n")
 
-    return response.text.strip()
-
-def generate_multiple_dsa_questions(num_questions=5):
-    questions = []
-    for i in range(1, num_questions + 1):
-        topic = random.choice(list(dsa_topics.keys()))
-        question = generate_dsa_question(topic)
-        test_cases = generate_test_cases(question)
-        formatted_question = f"Question {i}:\nDSA Question: {question}\n(Topic: {topic})\n\nTest Cases:\n{test_cases}"
-        questions.append(formatted_question)
-    return questions
+        parsed_cases = []
+        for case in test_cases:
+            lines = case.splitlines()
+            if len(lines) >= 2:
+                input_val = lines[0].split(": ")[-1]
+                output_val = lines[1].split(": ")[-1]
+                parsed_cases.append({"input": input_val, "output": output_val})
+        return parsed_cases
+    except genai.RequestError as e:
+        return f"Error: API request failed ({e})"
+    except genai.APIError as e:
+        return f"Error: Generative AI API error ({e})"
+    except Exception as e:
+        return f"Error generating test cases: {e}"
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', topics=list(dsa_topics.keys()))  
 
-@app.route('/generate_dsa_questions/<int:num_questions>', methods=['GET'])
-def generate_dsa_questions(num_questions):
-    generated_questions = generate_multiple_dsa_questions(num_questions)
+@app.route('/generate_dsa_questions', methods=['POST'])
+def generate_dsa_questions():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Missing data in request"}), 400
+
+    num_questions = int(data.get('num_questions', 5)) 
+    topics = data.get('topics', list(dsa_topics.keys()))
+    difficulty = data.get('difficulty', 'medium')
+
+    generated_questions = []
+    for _ in range(num_questions):
+        topic = random.choice(topics)
+        question = generate_dsa_question(topic, difficulty)
+        test_cases = generate_test_cases(question)
+        formatted_question = {
+            "topic": topic,
+            "question": question,
+            "test_cases": test_cases
+        }
+        generated_questions.append(formatted_question)
+
     return jsonify({"questions": generated_questions})
 
 if __name__ == "__main__":
