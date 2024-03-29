@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated DSA Questions</title>
+</head>
+<body>
+    <h1>Generated DSA Questions</h1>
+
+    {% if questions %}
+        {% for question in questions %}
+            <div style="margin-bottom: 20px;">
+                <p>{{ question }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No questions generated.</p>
+    {% endif %}
+</body>
+</html>
