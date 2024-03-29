@@ -4,7 +4,7 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Define DSA topics
+
 dsa_topics = {
     "Arrays": [
         "Dynamic Programming (DP) problems related to arrays.",
@@ -42,7 +42,7 @@ def generate_dsa_question(topic):
     Write a question that adheres to the provided instructions.
     """
 
-    genai.configure(api_key="AIzaSyDX14XHuVZscz2Ihjui1d3Ank1penTGwlU")
+    genai.configure(api_key="AI-------------------wlU")
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(prompt)
 
@@ -65,7 +65,7 @@ def generate_test_cases(question, num_test_cases=15):
     Write {num_test_cases} test cases that thoroughly test the problem related to the given question.
     """
 
-    genai.configure(api_key="AIzaSyDX14XHuVZscz2Ihjui1d3Ank1penTGwlU")
+    genai.configure(api_key="AI-------------------wlU")
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(prompt)
 
