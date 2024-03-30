@@ -4,7 +4,7 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-genai.configure(api_key="AIz-----------------------wlU")
+genai.configure(api_key="-------------------------------")
 
 # Define DSA topics
 dsa_topics = {
@@ -95,7 +95,7 @@ def generate_test_cases(question, num_test_cases=10):
 
 @app.route('/')
 def index():
-    return render_template('index.html', topics=list(dsa_topics.keys()))  
+    return render_template('index.html', topics=list(dsa_topics.keys()))  # Pass topics list to template
 
 @app.route('/generate_dsa_questions', methods=['POST'])
 def generate_dsa_questions():
@@ -103,7 +103,7 @@ def generate_dsa_questions():
     if not data:
         return jsonify({"error": "Missing data in request"}), 400
 
-    num_questions = int(data.get('num_questions', 5)) 
+    num_questions = int(data.get('num_questions', 5))  # Convert to integer
     topics = data.get('topics', list(dsa_topics.keys()))
     difficulty = data.get('difficulty', 'medium')
 
@@ -120,6 +120,10 @@ def generate_dsa_questions():
         generated_questions.append(formatted_question)
 
     return jsonify({"questions": generated_questions})
+
+@app.route('/generate_dsa_questions')
+def generate_dsa_questions_endpoint():
+    return render_template('index.html', topics=list(dsa_topics.keys()))
 
 if __name__ == "__main__":
     app.run(debug=True)
