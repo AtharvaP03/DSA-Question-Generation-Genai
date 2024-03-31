@@ -95,7 +95,7 @@ def generate_test_cases(question, num_test_cases=10):
 
 @app.route('/')
 def index():
-    return render_template('index.html', topics=list(dsa_topics.keys()))  # Pass topics list to template
+    return render_template('index.html', topics=list(dsa_topics.keys()))  
 
 @app.route('/generate_dsa_questions', methods=['POST'])
 def generate_dsa_questions():
@@ -103,7 +103,7 @@ def generate_dsa_questions():
     if not data:
         return jsonify({"error": "Missing data in request"}), 400
 
-    num_questions = int(data.get('num_questions', 5))  # Convert to integer
+    num_questions = int(data.get('num_questions', 5))  
     topics = data.get('topics', list(dsa_topics.keys()))
     difficulty = data.get('difficulty', 'medium')
 
