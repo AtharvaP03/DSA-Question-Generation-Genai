@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/evaluate",
+      "dest": "Gen1.py"
+    },
+    {
+      "src": "/",
+      "dest": "Gen1.py"
+    }
+  ],
+  "functions": {
+    "api/*": {
+      "runtime": "python3.8",
+      "includeFiles": ["Gen1.py"]
+    }
+  }
+}
