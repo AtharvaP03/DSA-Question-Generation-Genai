@@ -1,19 +1,23 @@
 {
   "version": 2,
-  "routes": [
+  "builds": [
     {
-      "src": "/evaluate",
-      "dest": "Gen1.py"
-    },
+      "src": "Gen1.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
+    }
+  ],
+  "routes": [
     {
       "src": "/",
       "dest": "Gen1.py"
+    },
+    {
+      "src": "/evaluate",
+      "dest": "Gen1.py"
     }
-  ],
-  "functions": {
-    "api/*": {
-      "runtime": "python3.8",
-      "includeFiles": ["Gen1.py"]
-    }
-  }
+  ]
 }
