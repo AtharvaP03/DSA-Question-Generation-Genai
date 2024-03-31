@@ -3,8 +3,8 @@ import random
 import google.generativeai as genai
 
 app = Flask(__name__)
-
-genai.configure(api_key="-------------------------------")
+# add api key
+genai.configure(api_key="---------------------------------------------")
 
 # Define DSA topics
 dsa_topics = {
@@ -121,6 +121,8 @@ def generate_dsa_questions():
 
     return jsonify({"questions": generated_questions})
 
+
+# Endpoint for generating DSA questions
 @app.route('/generate_dsa_questions')
 def generate_dsa_questions_endpoint():
     return render_template('index.html', topics=list(dsa_topics.keys()))
