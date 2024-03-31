@@ -6,7 +6,7 @@ app = Flask(__name__)
 # add api key
 genai.configure(api_key="---------------------------------------------")
 
-# Define DSA topics
+# Defining  DSA topics
 dsa_topics = {
     "Arrays": [
         "Dynamic Programming (DP) problems related to arrays.",
@@ -122,7 +122,6 @@ def generate_dsa_questions():
     return jsonify({"questions": generated_questions})
 
 
-# Endpoint for generating DSA questions
 @app.route('/generate_dsa_questions')
 def generate_dsa_questions_endpoint():
     return render_template('index.html', topics=list(dsa_topics.keys()))
