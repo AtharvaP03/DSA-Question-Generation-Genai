@@ -124,7 +124,7 @@ def generate_dsa_questions():
 
 @app.route('/generate_dsa_questions')
 def generate_dsa_questions_endpoint():
-    return render_template('index.html', topics=list(dsa_topics.keys()))
+    return render_template('index2.html', topics=list(dsa_topics.keys()))
 
 if __name__ == "__main__":
     app.run(debug=True)
