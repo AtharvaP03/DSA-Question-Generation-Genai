@@ -100,7 +100,7 @@ def generate_test_cases(question, num_test_cases=10):
 
 @app.route('/')
 def index():
-    return render_template('index.html', topics=list(dsa_topics.keys()))
+    return render_template('index2.html', topics=list(dsa_topics.keys()))
 
 @app.route('/generate_dsa_questions', methods=['POST'])
 def generate_dsa_questions():
