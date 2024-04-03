@@ -1,8 +1,3 @@
 {
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
-    }
-  ]
+  "GENERATIVE_AI_API_KEY": "AIzaSyDX14XHuVZscz2Ihjui1d3Ank1penTGwlU"
 }
