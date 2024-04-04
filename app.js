@@ -96,7 +96,7 @@ const generateTestCases = async (question, numTestCases = 10) => {
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.render('index', { topics: Object.keys(dsaTopics) });
+    res.render('index2', { topics: Object.keys(dsaTopics) });
 });
 
 app.post('/generate_dsa_questions', async (req, res) => {
