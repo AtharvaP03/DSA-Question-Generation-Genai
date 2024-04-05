@@ -127,3 +127,5 @@ def generate_dsa_questions():
         generated_questions.append(formatted_question)
 
     return jsonify({"questions": generated_questions})
+if __name__ == '__main__':
+    app.run(debug=True)
