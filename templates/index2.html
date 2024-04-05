@@ -56,61 +56,31 @@
             .catch(error => console.error('Error:', error));
         }
 
-        function displayQuestions(questions) {
-            var questionsDiv = document.getElementById("questions");
-            questionsDiv.innerHTML = "";
+       function displayQuestions(questions) {
+    var questionsDiv = document.getElementById("questions");
+    questionsDiv.innerHTML = "";
 
-            questions.forEach(question => {
-                var questionDiv = document.createElement("div");
-                questionDiv.innerHTML = `
-                    <h3>Topic: ${question.topic}</h3>
-                    <p>${question.question}</p>
-                    <h4>Test Cases:</h4>
-                    <ul>
-                        ${question.test_cases.map(test_case => `<li>Input: ${test_case.input}, Output: ${test_case.output}</li>`).join('')}
-                    </ul>
-                    <label for="userCode">Enter Your Code:</label><br>
-                    <textarea id="userCode${questions.indexOf(question)}" rows="4" cols="50"></textarea><br>
-                    <button type="button" onclick="evaluateCode(${questions.indexOf(question)})">Evaluate Code</button><br><br>
-                    <div id="result${questions.indexOf(question)}"></div>
-                    <hr>
-                `;
-                questionsDiv.appendChild(questionDiv);
-            });
-        }
+    questions.forEach(question => {
+        var questionDiv = document.createElement("div");
+        questionDiv.innerHTML = `
+            <h3>Topic: ${question.topic}</h3>
+            <p>${question.question}</p>
+            <h4>Test Cases:</h4>
+            <ul>
+                ${question.test_cases.map((test_case, index) => `
+                    <li>Test Case ${index + 1}:
+                        <ul>
+                            <li>Input: ${test_case.input}</li>
+                            <li>Output: ${test_case.output}</li>
+                        </ul>
+                    </li>`).join('')}
+            </ul>
+            <hr>
+        `;
+        questionsDiv.appendChild(questionDiv);
+    });
+}
 
-        function evaluateCode(questionIndex) {
-            var userCode = document.getElementById(`userCode${questionIndex}`).value;
-            var question = document.getElementsByTagName('h3')[questionIndex].innerText.split(': ')[1].trim();
-            var testCases = Array.from(document.querySelectorAll(`#questions div:nth-child(${questionIndex + 1}) ul li`)).map(testCase => {
-                var inputOutput = testCase.innerText.split(': ');
-                return {"input": inputOutput[1].split(', ')[0], "output": inputOutput[2].split(', ')[0]};
-            });
-
-            var requestData = {
-                "question": question,
-                "test_cases": testCases,
-                "user_code": userCode
-            };
-
-            fetch('/evaluate_dsa_questions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                displayResult(data.message, data.results, questionIndex);
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function displayResult(message, results, questionIndex) {
-            var resultDiv = document.getElementById(`result${questionIndex}`);
-            resultDiv.innerHTML = `<p>${message}</p><br><ul>${results.map(result => `<li>Input: ${result.input}, Output: ${result.output}, Result: ${result.result}</li>`).join('')}</ul>`;
-        }
     </script>
 </body>
 </html>
