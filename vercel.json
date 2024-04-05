@@ -17,9 +17,5 @@
     ],
     "env": {
         "GOOGLE_GENERATIVE_AI_API_KEY": "----------------------------"
-    },
-    "watch": [
-        "app.py",
-        "templates/**/*.html"
-    ]
+    }
 }
