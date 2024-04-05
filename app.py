@@ -4,12 +4,14 @@ Modified
 __________________________________________
 """
 from flask import Flask, jsonify, render_template, request
+from dotenv import load_dotenv
+import os
 import random
 import google.generativeai as genai
 
 app = Flask(__name__)
 
-genai.configure(api_key="--------------------------------")
+genai.configure(api_key = os.getenv("gemini_api_key" ))
 
 # Define DSA topics
 dsa_topics = {
